@@ -12,5 +12,15 @@ Author
 Installation
 ------------
 
-- Create a directory **Milestone** under the folder **plugins**
-- Copy all source files in this new directory
+- Decompress the archive in the `plugins` folder
+
+or
+
+- Create a folder **plugins/Milestone**
+- Copy all files under this directory
+
+
+Documentation
+-------------
+
+Milestone management is based on task links. It provides a proper view to show all the tasks linked with "is a milestone of" to the current task.

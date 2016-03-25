@@ -15,6 +15,7 @@ class Plugin extends Base
             Translator::load($container['config']->getCurrentLanguage(), __DIR__ . '/Locale');
         });
         
+        $this->route->addRoute('/roadmap/:project_id', 'Roadmap', 'index', 'milestone');
         $this->hook->on('template:layout:css', 'plugins/Milestone/Css/milestone.css');
         $this->template->setTemplateOverride('tasklink/show', 'milestone:tasklink/show');
         $this->template->setTemplateOverride('milestone/show', 'milestone:milestone/show');

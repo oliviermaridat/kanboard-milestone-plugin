@@ -2,11 +2,11 @@
 <div class="page-header">
     <h2><?= t('Milestone') ?></h2>
 </div>
-<table class="subtasks-table">
+<table class="task-links-table table-stripped">
     <thead>
     <tr>
         <th class="column-40" colspan="2"><?= t('Title') ?></th>
-        <th class="column-25"><?= t('Assignee') ?></th>
+        <th><?= t('Assignee') ?></th>
         <th><?= t('Time tracking') ?></th>
         <?php if ($editable): ?>
             <th class="column-5"></th>
@@ -24,11 +24,22 @@
         <tr>
             <td>
                 <div class="task-board color-<?= $link['color_id'] ?>">
-                    <?php if ($editable): ?>
+                    <?php if ($is_public): ?>
+                        <div class="task-board-collapsed<?= ($link['is_active'] ? '' : ' task-link-closed') ?>">
+                            <?= $this->url->link(
+                                $this->text->e('#'.$link['task_id'].' '.$link['title']),
+                                'task',
+                                'readonly',
+                                array('task_id' => $link['task_id'], 'token' => $project['token']),
+                                false,
+                                'task-board-collapsed-title'
+                            ) ?>
+                        </div>
+                    <?php elseif ($editable): ?>
                         <div class="task-board-collapsed<?= ($link['is_active'] ? '' : ' task-link-closed') ?>">
                         <?= $this->render('board/task_menu', array('task' => array('id' => $link['task_id'], 'project_id' => $link['project_id'], 'is_active' => $link['is_active']), 'redirect' => $task['id'])) ?>
                             <?= $this->url->link(
-                                $this->e($link['title']),
+                                $this->text->e($link['title']),
                                 'task',
                                 'show',
                                 array('task_id' => $link['task_id'], 'project_id' => $link['project_id']),
@@ -39,10 +50,10 @@
                     <?php else: ?>
                         <div class="task-board-collapsed<?= ($link['is_active'] ? '' : ' task-link-closed') ?>">
                             <?= $this->url->link(
-                                $this->e('#'.$link['task_id'].' '.$link['title']),
+                                $this->text->e('#'.$link['task_id'].' '.$link['title']),
                                 'task',
-                                'readonly',
-                                array('task_id' => $link['task_id'], 'token' => $project['token']),
+                                'show',
+                                array('task_id' => $link['task_id'], 'project_id' => $link['project_id']),
                                 false,
                                 'task-board-collapsed-title'
                             ) ?>
@@ -50,23 +61,23 @@
                     <?php endif ?>
                 </div>
             </td>
-            <td><?= $this->e($link['column_title']) ?></td>
+            <td><?= $this->text->e($link['column_title']) ?></td>
             <td>
                 <?php if (! empty($link['task_assignee_username'])): ?>
                     <?php if ($editable): ?>
-                        <?= $this->url->link($this->e($link['task_assignee_name'] ?: $link['task_assignee_username']), 'user', 'show', array('user_id' => $link['task_assignee_id'])) ?>
+                        <?= $this->url->link($this->text->e($link['task_assignee_name'] ?: $link['task_assignee_username']), 'user', 'show', array('user_id' => $link['task_assignee_id'])) ?>
                     <?php else: ?>
-                        <?= $this->e($link['task_assignee_name'] ?: $link['task_assignee_username']) ?>
+                        <?= $this->text->e($link['task_assignee_name'] ?: $link['task_assignee_username']) ?>
                     <?php endif ?>
                 <?php endif ?>
             </td>
             <td>
                 <?php if (! empty($link['task_time_spent'])): ?>
-                    <strong><?= $this->e($link['task_time_spent']).'h' ?></strong> <?= t('spent') ?>
+                    <strong><?= $this->text->e($link['task_time_spent']).'h' ?></strong> <?= t('spent') ?>
                 <?php endif ?>
     
                 <?php if (! empty($link['task_time_estimated'])): ?>
-                    <strong><?= $this->e($link['task_time_estimated']).'h' ?></strong> <?= t('estimated') ?>
+                    <strong><?= $this->text->e($link['task_time_estimated']).'h' ?></strong> <?= t('estimated') ?>
                 <?php endif ?>
             </td>
             <?php if ($editable): ?>
@@ -89,15 +100,15 @@
         <th colspan="3" class="total"><?= t('Total time tracking') ?></th>
         <td<?php if ($editable): ?> colspan="2"<?php endif ?>>
             <?php if (! empty($total_time_spent)): ?>
-                <strong><?= $this->e($total_time_spent).'h' ?></strong> <?= t('spent') ?>
+                <strong><?= $this->text->e($total_time_spent).'h' ?></strong> <?= t('spent') ?>
             <?php endif ?>
 
             <?php if (! empty($total_time_estimated)): ?>
-                <strong><?= $this->e($total_time_estimated).'h' ?></strong> <?= t('estimated') ?>
+                <strong><?= $this->text->e($total_time_estimated).'h' ?></strong> <?= t('estimated') ?>
             <?php endif ?>
 
             <?php if (! empty($total_time_spent) && ! empty($total_time_estimated)): ?>
-                <strong><?= $this->e($total_time_estimated-$total_time_spent).'h' ?></strong> <?= t('remaining') ?>
+                <strong><?= $this->text->e($total_time_estimated-$total_time_spent).'h' ?></strong> <?= t('remaining') ?>
             <?php endif ?>
             
             <div class="progress-bar">

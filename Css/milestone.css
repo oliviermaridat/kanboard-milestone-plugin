@@ -1,3 +1,7 @@
+.total {
+    text-align: right;
+}
+
 .progress-bar {
     border: 1px solid black;
     border-radius: 2px;

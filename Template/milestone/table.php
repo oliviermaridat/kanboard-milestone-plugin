@@ -109,7 +109,7 @@
             <?php endif ?>
             
             <div class="progress-bar">
-                <?php $percentage = round($total_time_spent_cumul/$total_time_estimated*100.0); ?>
+                <?php $percentage = (!$total_time_estimated ? 0 : round($total_time_spent_cumul/$total_time_estimated*100.0)); ?>
                 <div class="progress color-<?= $task['color_id'] ?>" style="width:<?= $percentage ?>%;">
                     <?= $percentage ?>%
                 </div>

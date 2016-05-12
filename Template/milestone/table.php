@@ -20,21 +20,11 @@
         <?php $total_time_spent_cumul += min($link['task_time_spent'], $link['task_time_estimated']); ?>
         <tr>
             <td>
-                <div class="task-board color-<?= $link['color_id'] ?>">
-                    <?php if ($is_public): ?>
+                <div class="task-board color-<?= $link['color_id'] ?>"
+                     data-task-url="<?= $this->url->href('task', 'show', array('task_id' => $link['task_id'], 'project_id' => $link['project_id'])) ?>">
+                    <?php if ($editable): ?>
                         <div class="task-board-collapsed<?= ($link['is_active'] ? '' : ' task-link-closed') ?>">
-                            <?= $this->url->link(
-                                $this->text->e('#'.$link['task_id'].' '.$link['title']),
-                                'task',
-                                'readonly',
-                                array('task_id' => $link['task_id'], 'token' => $project['token']),
-                                false,
-                                'task-board-collapsed-title'
-                            ) ?>
-                        </div>
-                    <?php elseif ($editable): ?>
-                        <div class="task-board-collapsed<?= ($link['is_active'] ? '' : ' task-link-closed') ?>">
-                        <?= $this->render('board/task_menu', array('task' => array('id' => $link['task_id'], 'project_id' => $link['project_id'], 'is_active' => $link['is_active']), 'redirect' => $task['id'])) ?>
+                            <?= $this->render('task/dropdown', array('task' => array('id' => $link['task_id'], 'project_id' => $link['project_id'], 'is_active' => $link['is_active'], 'link_id' => $link['id']))) ?>
                             <?= $this->url->link(
                                 $this->text->e($link['title']),
                                 'task',
@@ -44,13 +34,13 @@
                                 'task-board-collapsed-title'
                             ) ?>
                         </div>
-                    <?php else: ?>
+                   <?php else: ?>
                         <div class="task-board-collapsed<?= ($link['is_active'] ? '' : ' task-link-closed') ?>">
                             <?= $this->url->link(
                                 $this->text->e('#'.$link['task_id'].' '.$link['title']),
                                 'task',
-                                'show',
-                                array('task_id' => $link['task_id'], 'project_id' => $link['project_id']),
+                                $is_public ? 'readonly' : 'show',
+                                $is_public ? array('task_id' => $link['task_id'], 'token' => $project['token']) : array('task_id' => $link['task_id'], 'project_id' => $link['project_id']),
                                 false,
                                 'task-board-collapsed-title'
                             ) ?>
@@ -72,7 +62,7 @@
                 <?php if (! empty($link['task_time_spent'])): ?>
                     <strong><?= $this->text->e($link['task_time_spent']).'h' ?></strong> <?= t('spent') ?>
                 <?php endif ?>
-    
+
                 <?php if (! empty($link['task_time_estimated'])): ?>
                     <strong><?= $this->text->e($link['task_time_estimated']).'h' ?></strong> <?= t('estimated') ?>
                 <?php endif ?>
@@ -107,7 +97,7 @@
             <?php if (! empty($total_time_spent) && ! empty($total_time_estimated)): ?>
                 <strong><?= $this->text->e($total_time_estimated-$total_time_spent).'h' ?></strong> <?= t('remaining') ?>
             <?php endif ?>
-            
+
             <div class="progress-bar">
                 <?php $percentage = (!$total_time_estimated ? 0 : round($total_time_spent_cumul/$total_time_estimated*100.0)); ?>
                 <div class="progress color-<?= $task['color_id'] ?>" style="width:<?= $percentage ?>%;">

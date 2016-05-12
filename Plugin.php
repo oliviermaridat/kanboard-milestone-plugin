@@ -16,6 +16,7 @@ class Plugin extends Base
         });
 
         $this->hook->on('template:layout:css', 'plugins/Milestone/Css/milestone.css');
+        $this->template->hook->attach('template:task:dropdown', 'milestone:milestone/dropdown');
         $this->template->setTemplateOverride('task_internal_link/show', 'milestone:task_internal_link/show');
         $this->template->setTemplateOverride('milestone/show', 'milestone:milestone/show');
         $this->template->setTemplateOverride('milestone/table', 'milestone:milestone/table');
@@ -33,7 +34,7 @@ class Plugin extends Base
 
     public function getPluginVersion()
     {
-        return '1.0.27-1';
+        return '1.0.28-1';
     }
 
     public function getPluginHomepage()

@@ -21,13 +21,13 @@
         <tr>
             <td>
                 <div class="task-board color-<?= $link['color_id'] ?>"
-                     data-task-url="<?= $this->url->href('task', 'show', array('task_id' => $link['task_id'], 'project_id' => $link['project_id'])) ?>">
+                     data-task-url="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $link['task_id'], 'project_id' => $link['project_id'])) ?>">
                     <?php if ($editable): ?>
                         <div class="task-board-collapsed<?= ($link['is_active'] ? '' : ' task-link-closed') ?>">
                             <?= $this->render('task/dropdown', array('task' => array('id' => $link['task_id'], 'project_id' => $link['project_id'], 'is_active' => $link['is_active'], 'link_id' => $link['id']))) ?>
                             <?= $this->url->link(
                                 $this->text->e($link['title']),
-                                'task',
+                                'TaskViewController',
                                 'show',
                                 array('task_id' => $link['task_id'], 'project_id' => $link['project_id']),
                                 false,
@@ -38,7 +38,7 @@
                         <div class="task-board-collapsed<?= ($link['is_active'] ? '' : ' task-link-closed') ?>">
                             <?= $this->url->link(
                                 $this->text->e('#'.$link['task_id'].' '.$link['title']),
-                                'task',
+                                'TaskViewController',
                                 $is_public ? 'readonly' : 'show',
                                 $is_public ? array('task_id' => $link['task_id'], 'token' => $project['token']) : array('task_id' => $link['task_id'], 'project_id' => $link['project_id']),
                                 false,
@@ -52,7 +52,7 @@
             <td>
                 <?php if (! empty($link['task_assignee_username'])): ?>
                     <?php if ($editable): ?>
-                        <?= $this->url->link($this->text->e($link['task_assignee_name'] ?: $link['task_assignee_username']), 'user', 'show', array('user_id' => $link['task_assignee_id'])) ?>
+                        <?= $this->url->link($this->text->e($link['task_assignee_name'] ?: $link['task_assignee_username']), 'UserViewController', 'show', array('user_id' => $link['task_assignee_id'])) ?>
                     <?php else: ?>
                         <?= $this->text->e($link['task_assignee_name'] ?: $link['task_assignee_username']) ?>
                     <?php endif ?>
@@ -72,8 +72,8 @@
                 <div class="dropdown">
                 <a href="#" class="dropdown-menu dropdown-menu-link-icon"><i class="fa fa-cog fa-fw"></i><i class="fa fa-caret-down"></i></a>
                 <ul>
-                    <li><?= $this->url->link(t('Edit'), 'TaskInternalLink', 'edit', array('link_id' => $link['id'], 'task_id' => $task['id'], 'project_id' => $task['project_id']), false, 'popover') ?></li>
-                    <li><?= $this->url->link(t('Remove'), 'TaskInternalLink', 'confirm', array('link_id' => $link['id'], 'task_id' => $task['id'], 'project_id' => $task['project_id']), false, 'popover') ?></li>
+                    <li><?= $this->url->link(t('Edit'), 'TaskInternalLinkController', 'edit', array('link_id' => $link['id'], 'task_id' => $task['id'], 'project_id' => $task['project_id']), false, 'popover') ?></li>
+                    <li><?= $this->url->link(t('Remove'), 'TaskInternalLinkController', 'confirm', array('link_id' => $link['id'], 'task_id' => $task['id'], 'project_id' => $task['project_id']), false, 'popover') ?></li>
                 </ul>
                 </div>
             </td>

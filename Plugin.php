@@ -12,7 +12,7 @@ class Plugin extends Base
         $container = $this->container;
 
         $this->on('app.bootstrap', function ($container) {
-            Translator::load($this->language->getCurrentLanguage(), __DIR__ . '/Locale');
+            Translator::load($this->languageModel->getCurrentLanguage(), __DIR__ . '/Locale');
         });
 
         $this->hook->on('template:layout:css', 'plugins/Milestone/Css/milestone.css');

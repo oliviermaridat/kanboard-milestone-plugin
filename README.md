@@ -3,7 +3,7 @@ Kanboard Milestone Plugin
 
 This plugin adds a section for milestones to show their related tasks.
 
-The new Milestone section is added between the "Sub-tasks" and the "Internal links" sections as depiected below.
+The new Milestone section is added between the "Sub-tasks" and the "Internal links" sections as depicted below.
 
 ![Milestone example](https://raw.github.com/oliviermaridat/kanboard-milestone-plugin/master/Doc/milestoneview.png)
 
@@ -13,16 +13,21 @@ Author
 - Olivier Maridat
 - License MIT
 
+Requirements
+------
+
+- Kanboard >= 1.0.29
+
 Installation
 ------------
 
-- Decompress the archive in the `plugins` folder
+You have the choice between 3 methods:
 
-or
+- Install the plugin from the Kanboard plugin manager in one click
+- Download the zip file and decompress everything under the directory plugins/Milestone
+- Clone this repository into the folder plugins/Milestone
 
-- Create a folder **plugins/Milestone**
-- Copy all files under this directory
-
+Note: Plugin folder is case-sensitive.
 
 Documentation
 -------------

@@ -15,7 +15,7 @@ class Plugin extends Base
             Translator::load($this->languageModel->getCurrentLanguage(), __DIR__ . '/Locale');
         });
 
-        $this->hook->on('template:layout:css', 'plugins/Milestone/Css/milestone.css');
+        $this->hook->on('template:layout:css', array('template' => 'plugins/Milestone/Css/milestone.css'));
         $this->template->hook->attach('template:task:dropdown', 'milestone:milestone/dropdown');
         $this->template->setTemplateOverride('task_internal_link/show', 'milestone:task_internal_link/show');
         $this->template->setTemplateOverride('milestone/show', 'milestone:milestone/show');
@@ -34,7 +34,7 @@ class Plugin extends Base
 
     public function getPluginVersion()
     {
-        return '1.0.29-1';
+        return '1.0.32-1';
     }
 
     public function getPluginHomepage()

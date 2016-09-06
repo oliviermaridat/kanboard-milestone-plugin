@@ -11,15 +11,16 @@ class Plugin extends Base
     {
         $container = $this->container;
 
-        $this->on('app.bootstrap', function ($container) {
-            Translator::load($this->languageModel->getCurrentLanguage(), __DIR__ . '/Locale');
-        });
-
         $this->hook->on('template:layout:css', array('template' => 'plugins/Milestone/Css/milestone.css'));
         $this->template->hook->attach('template:task:dropdown', 'milestone:milestone/dropdown');
         $this->template->setTemplateOverride('task_internal_link/show', 'milestone:task_internal_link/show');
         $this->template->setTemplateOverride('milestone/show', 'milestone:milestone/show');
         $this->template->setTemplateOverride('milestone/table', 'milestone:milestone/table');
+    }
+
+     public function onStartup()
+    {
+        Translator::load($this->languageModel->getCurrentLanguage(), __DIR__.'/Locale');
     }
 
     public function getPluginName()

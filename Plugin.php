@@ -3,24 +3,36 @@ namespace Kanboard\Plugin\Milestone;
 
 use Kanboard\Core\Plugin\Base;
 use Kanboard\Core\Translator;
+use Kanboard\Plugin\Milestone\Formatter\TaskGanttLinkAwareFormatter;
 
 class Plugin extends Base
 {
 
     public function initialize()
     {
-        $container = $this->container;
-
         $this->hook->on('template:layout:css', array('template' => 'plugins/Milestone/Css/milestone.css'));
         $this->template->hook->attach('template:task:dropdown', 'milestone:milestone/dropdown');
         $this->template->setTemplateOverride('task_internal_link/show', 'milestone:task_internal_link/show');
         $this->template->setTemplateOverride('milestone/show', 'milestone:milestone/show');
         $this->template->setTemplateOverride('milestone/table', 'milestone:milestone/table');
+
+        $this->container['taskGanttFormatter'] = $this->container->factory(function ($c) {
+            return new TaskGanttLinkAwareFormatter($c);
+        });
     }
 
      public function onStartup()
     {
         Translator::load($this->languageModel->getCurrentLanguage(), __DIR__.'/Locale');
+    }
+
+    public function getClasses()
+    {
+        return array(
+            'Plugin\Milestone\Model' => array(
+                'TaskLinkExtModel'
+            )
+        );
     }
 
     public function getPluginName()
@@ -35,7 +47,7 @@ class Plugin extends Base
 
     public function getPluginVersion()
     {
-        return '1.0.33-1';
+        return '1.0.36-1';
     }
 
     public function getPluginHomepage()

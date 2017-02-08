@@ -19,6 +19,8 @@ class TaskGanttLinkAwareFormatter extends TaskGanttFormatter
      * @var array
      */
     private $columns = array();
+    private $known_start_dates = array();
+    private $known_due_dates = array();
 
     /**
      * Apply formatter
@@ -55,7 +57,7 @@ class TaskGanttLinkAwareFormatter extends TaskGanttFormatter
 
         if (empty($task['date_due']) || empty($task['date_started'])) {
             // Follow target milestone start/due dates
-            list($dates_started, $dates_due) = $this->taskLinkExtModel->getAllDates($task['id'], 8);
+            list($dates_started, $dates_due) = $this->taskLinkExtModel->getAllDates($task['id'], 8, $this->known_start_dates, $this->known_due_dates);
             if (empty($task['date_started']) && !empty($dates_started)) {
                 $start = max($start, min($dates_started));
             }
@@ -64,11 +66,13 @@ class TaskGanttLinkAwareFormatter extends TaskGanttFormatter
             }
             // Start after any blocking tasks
             if (empty($task['date_started'])) {
-                list($dates_started, $dates_due) = $this->taskLinkExtModel->getAllDates($task['id'], 3);
+                list($dates_started, $dates_due) = $this->taskLinkExtModel->getAllDates($task['id'], 3, $this->known_start_dates, $this->known_due_dates);
                 if (!empty($dates_due)) {
                     $start = max(array_merge(array($start), $dates_due));
                 }
             }
+            $this->known_start_dates[$task['id']] = $start;
+            $this->known_due_dates[$task['id']] = $end;
         }
 
         return array(

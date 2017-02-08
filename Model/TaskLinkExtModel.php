@@ -73,19 +73,27 @@ class TaskLinkExtModel extends Base
    * @access public
    * @param  integer   $task_id   Task id
    * @param  integer   $link_id   Filter on a link id (default: no filter)
+   * @param  array     $know_start_dates   Already known start dates
+   * @param  array     $know_due_dates     Already known due dates
    * @return array     Two arrays containing non empty started dates, and non empty due dates
    */
-  public function getAllDates($task_id, $link_id)
+  public function getAllDates($task_id, $link_id, $know_start_dates, $know_due_dates)
   {
       $links = $this->getAll($task_id, $link_id);
       $dates_started = array();
       $dates_due = array();
       foreach($links as $link) {
           if (!empty($link['date_started'])) {
-              $dates_started[] = $link['date_started'];
+              $dates_started[$link['task_id']] = $link['date_started'];
+          }
+          else if (isset($know_start_dates[$link['task_id']])) {
+              $dates_started[] = $know_start_dates[$link['task_id']];
           }
           if (!empty($link['date_due'])) {
               $dates_due[] = $link['date_due'];
+          }
+          else if (isset($know_due_dates[$link['task_id']])) {
+              $dates_due[$link['task_id']] = $know_due_dates[$link['task_id']];
           }
       }
       return array($dates_started, $dates_due);

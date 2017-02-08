@@ -3,7 +3,6 @@
         <h3><a href="#" class="fa accordion-toggle"></a> <?= t('Milestone') ?></h3>
     </div>
     <div class="accordion-content">
-    <div id="milestone">
         <?= $this->render('milestone/table', array(
             'milestone' => $milestone,
             'task' => $task,

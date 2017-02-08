@@ -20,7 +20,7 @@ Author
 Requirements
 ------
 
-The last version of this plugin requires at least Kanboard >= 1.0.36.
+The last version of this plugin requires at least Kanboard 1.0.37 and has been tested on 1.0.38.
 
 Installation
 ------------

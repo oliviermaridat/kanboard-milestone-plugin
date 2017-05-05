@@ -2,7 +2,7 @@
 
 namespace Kanboard\Plugin\Milestone\Formatter;
 
-use Kanboard\Formatter\TaskGanttFormatter;
+use Kanboard\Plugin\Gantt\Formatter\TaskGanttFormatter;
 
 /**
  * Task Gantt Formatter ware of internal links between tasks

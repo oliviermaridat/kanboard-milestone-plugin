@@ -6,7 +6,6 @@ use Kanboard\Core\Base;
 use Kanboard\Model\ColumnModel;
 use Kanboard\Model\LinkModel;
 use Kanboard\Model\ProjectModel;
-use Kanboard\Model\TaskLinkModel;
 use Kanboard\Model\TaskModel;
 use Kanboard\Model\UserModel;
 

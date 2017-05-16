@@ -7,7 +7,6 @@ use Kanboard\Plugin\Milestone\Formatter\TaskGanttLinkAwareFormatter;
 
 class Plugin extends Base
 {
-
     public function initialize()
     {
         $this->hook->on('template:layout:css', array('template' => 'plugins/Milestone/Css/milestone.css'));
@@ -21,7 +20,7 @@ class Plugin extends Base
         });
     }
 
-     public function onStartup()
+    public function onStartup()
     {
         Translator::load($this->languageModel->getCurrentLanguage(), __DIR__.'/Locale');
     }
@@ -58,5 +57,10 @@ class Plugin extends Base
     public function getPluginDescription()
     {
         return t('The Milestone Plugin for Kanboard adds a section for milestones to show their related tasks.');
+    }
+
+    public function getCompatibleVersion()
+    {
+        return '1.0.43';
     }
 }

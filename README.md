@@ -7,7 +7,7 @@ The new Milestone section is added between the "Sub-tasks" and the "Internal lin
 
 ![Milestone example](https://raw.github.com/oliviermaridat/kanboard-milestone-plugin/master/Doc/milestoneview.png)
 
-It also uses "is a milestone of" and "is blocked by" task links to infer start and due dates in the Gantt view.
+It also uses "is a milestone of" and "is blocked by" task links to infer start and due dates if you are using the [Gantt Plugin](https://github.com/kanboard/plugin-gantt).
 
 ![Gantt view example](https://raw.github.com/oliviermaridat/kanboard-milestone-plugin/master/Doc/Gantt-Milestone-and-blocked.png)
 
@@ -20,7 +20,7 @@ Author
 Requirements
 ------
 
-The last version of this plugin requires at least Kanboard 1.0.37 and has been tested on 1.0.38.
+* Kanboard >= 1.0.37 
 
 Installation
 ------------

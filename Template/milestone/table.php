@@ -93,7 +93,7 @@
         <td<?php if ($editable): ?> colspan="2"<?php endif ?>>
             <div class="progress-bar">
                 <?php $percentage = (!$total_progress ? 0 : round($total_progress/count($milestone))); ?>
-                <div class="task-board progress color-<?= $task['color_id'] ?>" style="width:<?= $percentage ?>%;">
+                <div class="task-board progress color-<?= $task['color_id'] ?>" style="width:<?= min(99, $percentage) ?>%;">
                     &#160;<?= $percentage ?>%
                 </div>
             </div>
@@ -117,7 +117,7 @@
 
             <div class="progress-bar">
                 <?php $percentage = (!$total_time_estimated ? 0 : round($total_time_spent_cumul/$total_time_estimated*100.0)); ?>
-                <div class="task-board progress color-<?= $task['color_id'] ?>" style="width:<?= $percentage ?>%;">
+                <div class="task-board progress color-<?= $task['color_id'] ?>" style="width:<?= min(99, $percentage) ?>%;">
                     &#160;<?= $percentage ?>%
                 </div>
             </div>

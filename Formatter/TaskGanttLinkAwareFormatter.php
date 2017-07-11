@@ -32,6 +32,10 @@ class TaskGanttLinkAwareFormatter extends TaskGanttFormatter
     {
         $bars = array();
 
+        // Depending of the task order, two loops are required
+        foreach ($this->query->findAll() as $task) {
+            $this->formatTaskUsingLinks($task);
+        }
         foreach ($this->query->findAll() as $task) {
             $bars[] = $this->formatTaskUsingLinks($task);
         }
@@ -95,6 +99,8 @@ class TaskGanttLinkAwareFormatter extends TaskGanttFormatter
             'link' => $this->helper->url->href('TaskViewController', 'show', array('project_id' => $task['project_id'], 'task_id' => $task['id'])),
             'color' => $this->colorModel->getColorProperties($task['color_id']),
             'not_defined' => empty($task['date_due']) || empty($task['date_started']),
+            'date_started_not_defined' => empty($task['date_started']),
+            'date_due_not_defined' => empty($task['date_due']),
         );
     }
 }

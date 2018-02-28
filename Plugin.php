@@ -15,6 +15,10 @@ class Plugin extends Base
         $this->template->setTemplateOverride('milestone/show', 'milestone:milestone/show');
         $this->template->setTemplateOverride('milestone/table', 'milestone:milestone/table');
 
+	$this->hook->on('controller:tasklink:form:default', function (array $default_values) {
+	    return (0 != $this->request->getIntegerParam('link_id')) ? array('link_id' => $this->request->getIntegerParam('link_id')) : array();
+	});
+
         $this->container['taskGanttFormatter'] = $this->container->factory(function ($c) {
             return new TaskGanttLinkAwareFormatter($c);
         });
@@ -30,7 +34,7 @@ class Plugin extends Base
         return array(
             'Plugin\Milestone\Model' => array(
                 'TaskLinkExtModel'
-            )
+	    )
         );
     }
 
@@ -46,7 +50,7 @@ class Plugin extends Base
 
     public function getPluginVersion()
     {
-        return '1.1.1';
+        return '1.1.2';
     }
 
     public function getPluginHomepage()

@@ -23,10 +23,10 @@ class TaskLinkExtModel extends Base
    *
    * @access public
    * @param  integer   $task_id   Task id
-   * @param  integer   $link_id   Filter on a link id (default: no filter)
+   * @param  array     $link_ids  Filter on one or several link ids (default: no filter)
    * @return array
    */
-  public function getAll($task_id, $link_id=-1)
+  public function getAll($task_id, $link_ids=NULL)
   {
       $query = $this->db
                   ->table(self::TABLE)
@@ -39,6 +39,7 @@ class TaskLinkExtModel extends Base
                       TaskModel::TABLE.'.project_id',
                       TaskModel::TABLE.'.column_id',
                       TaskModel::TABLE.'.color_id',
+                      TaskModel::TABLE.'.date_completed',
                       TaskModel::TABLE.'.date_started',
                       TaskModel::TABLE.'.date_due',
                       TaskModel::TABLE.'.time_spent AS task_time_spent',
@@ -59,9 +60,9 @@ class TaskLinkExtModel extends Base
                   ->desc(ColumnModel::TABLE.'.position')
                   ->desc(TaskModel::TABLE.'.is_active')
                   ->asc(TaskModel::TABLE.'.position')
-                  ->asc(TaskModel::TABLE.'.id');
-      if (-1 != $link_id) {
-          $query->eq(self::TABLE.'.link_id', $link_id);
+		  ->asc(TaskModel::TABLE.'.id');
+      if (NULL != $link_ids && is_array($link_ids) && !empty($link_ids)) {
+          $query->in(self::TABLE.'.link_id', $link_ids);
       }
       return $query->findAll();
   }
@@ -78,21 +79,26 @@ class TaskLinkExtModel extends Base
    */
   public function getAllDates($task_id, $link_id, $know_start_dates, $know_due_dates)
   {
-      $links = $this->getAll($task_id, $link_id);
+      $links = $this->getAll($task_id, array($link_id));
       $dates_started = array();
       $dates_due = array();
       foreach($links as $link) {
+	  // Existing or known start date
           if (!empty($link['date_started'])) {
-              $dates_started[$link['task_id']] = $link['date_started'];
+              $dates_started[] = $link['date_started'];
           }
           else if (isset($know_start_dates[$link['task_id']])) {
               $dates_started[] = $know_start_dates[$link['task_id']];
+	  }
+	  // Existing completed or due date, or known due date
+          if (!empty($link['date_completed'])) {
+              $dates_due[] = $link['date_completed'];
           }
-          if (!empty($link['date_due'])) {
+	  else if (!empty($link['date_due'])) {
               $dates_due[] = $link['date_due'];
           }
           else if (isset($know_due_dates[$link['task_id']])) {
-              $dates_due[$link['task_id']] = $know_due_dates[$link['task_id']];
+              $dates_due[] = $know_due_dates[$link['task_id']];
           }
       }
       return array($dates_started, $dates_due);

@@ -56,16 +56,16 @@ class TaskGanttLinkAwareFormatter extends TaskGanttFormatter
             $this->columns[$task['project_id']] = $this->columnModel->getList($task['project_id']);
         }
 
-        $start = $task['date_started'] ?: time();
-        $end = $task['date_due'] ?: $start;
+	$start = $task['date_started'] ?: time();
+        $end = $task['date_completed'] ?: ($task['date_due'] ?: $start);
 
-        if (empty($task['date_due']) || empty($task['date_started'])) {
+        if ((empty($task['date_completed']) && empty($task['date_due'])) || empty($task['date_started'])) {
             // Follow target milestone start/due dates
             list($dates_started, $dates_due) = $this->taskLinkExtModel->getAllDates($task['id'], 8, $this->known_start_dates, $this->known_due_dates);
             if (empty($task['date_started']) && !empty($dates_started)) {
                 $start = max($start, min($dates_started));
             }
-            if (empty($task['date_due']) && !empty($dates_due)) {
+            if (empty($task['date_completed']) && empty($task['date_due']) && !empty($dates_due)) {
                 $end = min($dates_due);
             }
             // Start after any blocking tasks
@@ -100,7 +100,7 @@ class TaskGanttLinkAwareFormatter extends TaskGanttFormatter
             'color' => $this->colorModel->getColorProperties($task['color_id']),
             'not_defined' => empty($task['date_due']) || empty($task['date_started']),
             'date_started_not_defined' => empty($task['date_started']),
-            'date_due_not_defined' => empty($task['date_due']),
+            'date_due_not_defined' => empty($task['date_completed']) && empty($task['date_due']),
         );
     }
 }

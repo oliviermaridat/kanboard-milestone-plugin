@@ -1,8 +1,13 @@
 <?php if (! empty($milestone)): ?>
+<div class="">
+
+</div>
 <table class="task-links-table table-stripped">
     <thead>
     <tr>
-        <th class="column-45" colspan="2"><?= t('Title') ?></th>
+        <th><?= t('Project') ?></th>
+        <th><?= t('Column') ?></th>
+        <th class="column-40"><?= t('Title') ?></th>
         <th class="column-15"><?= t('Assignee') ?></th>
         <th><?= t('Time tracking') ?></th>
         <?php if ($editable): ?>
@@ -21,6 +26,8 @@
         <?php $total_time_estimated += $link['task_time_estimated']; ?>
         <?php $total_time_spent_cumul += min($link['task_time_spent'], $link['task_time_estimated']); ?>
         <tr>
+            <td><?php echo $link['project_name'] ?></td>
+            <td><?= $this->text->e($link['column_title']) ?></td>
             <td>
                 <div class="task-board color-<?= $link['color_id'] ?>"
                      data-task-url="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $link['task_id'], 'project_id' => $link['project_id'])) ?>">
@@ -50,7 +57,6 @@
                     <?php endif ?>
                 </div>
             </td>
-            <td><?= $this->text->e($link['column_title']) ?></td>
             <td>
                 <?php if (! empty($link['task_assignee_username'])): ?>
                     <?php if ($editable): ?>
@@ -111,7 +117,7 @@
     </tbody>
     <tfoot>
     <tr>
-        <th colspan="3" class="total"><?= t('Total progress') ?></th>
+        <th colspan="4" class="total"><?= t('Total progress') ?></th>
         <td<?php if ($editable): ?> colspan="2"<?php endif ?>>
             <div class="progress-bar">
                 <?php $percentage = (!$total_progress ? 0 : round($total_progress/count($milestone))); ?>
@@ -123,7 +129,7 @@
     </tr>
     <?php if (! empty($total_time_spent) || ! empty($total_time_estimated)): ?>
     <tr>
-        <th colspan="3" class="total"><?= t('Total time tracking') ?></th>
+        <th colspan="4" class="total"><?= t('Total time tracking') ?></th>
         <td<?php if ($editable): ?> colspan="2"<?php endif ?>>
             <?php if (! empty($total_time_spent)): ?>
                 <strong><?= $this->text->e($total_time_spent).'h' ?></strong> <?= t('spent') ?>

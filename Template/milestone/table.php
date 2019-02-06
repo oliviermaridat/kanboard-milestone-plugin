@@ -1,7 +1,4 @@
 <?php if (! empty($milestone)): ?>
-<div class="">
-
-</div>
 <table class="task-links-table table-stripped">
     <thead>
     <tr>
@@ -131,6 +128,9 @@
     <tr>
         <th colspan="4" class="total"><?= t('Total time tracking') ?></th>
         <td<?php if ($editable): ?> colspan="2"<?php endif ?>>
+
+            <strong><?= count($milestone) ?></strong> <?= strtolower(t('Tasks')) ?>
+
             <?php if (! empty($total_time_spent)): ?>
                 <strong><?= $this->text->e($total_time_spent).'h' ?></strong> <?= t('spent') ?>
             <?php endif ?>

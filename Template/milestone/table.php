@@ -1,5 +1,5 @@
 <?php if (! empty($milestone)): ?>
-<table class="task-links-table table-stripped">
+<table class="task-links-table table-stripped table-scrolling">
     <thead>
     <tr>
         <th><?= t('Project') ?></th>

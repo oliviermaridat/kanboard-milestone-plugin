@@ -1,18 +1,18 @@
 <?php if (! empty($milestone)): ?>
 <table class="task-links-table table-stripped table-scrolling">
-    <thead>
-    <tr>
-        <th><?= t('Project') ?></th>
-        <th><?= t('Column') ?></th>
-        <th class="column-40"><?= t('Title') ?></th>
-        <th class="column-15"><?= t('Assignee') ?></th>
-        <th><?= t('Time tracking') ?></th>
-        <?php if ($editable): ?>
-            <th class="column-5"></th>
-        <?php endif ?>
-    </tr>
+    <thead id="thead-sort">
+        <tr>
+            <th><?= t('Project') ?></th>
+            <th><?= t('Column') ?></th>
+            <th class="column-40"><?= t('Title') ?></th>
+            <th class="column-15"><?= t('Assignee') ?></th>
+            <th><?= t('Time tracking') ?></th>
+            <?php if ($editable): ?>
+                <th class="column-5"></th>
+            <?php endif ?>
+        </tr>
     </thead>
-    <tbody id="table-sort">
+    <tbody id="tbody-sort">
         <?php $total_progress = 0; ?>
         <?php $total_time_spent = 0; ?>
         <?php $total_time_estimated = 0; ?>

@@ -1,24 +1,24 @@
 $(document).ready( function(){
 
-    for(i = 0; i < $('thead th').length; i++){        
-        $('thead th').eq(i).html(
-            $('thead th').eq(i).html()+'<span>     &#x2B18;<span>');
+    for(i = 0; i < $('#thead-sort th').length; i++){        
+        $('#thead-sort th').eq(i).html(
+            $('#thead-sort th').eq(i).html()+'<span>     &#x2B18;<span>');
     }
 
-    $('th').on('click', function(){
-        let index = $('th').index(this);
+    $('#thead-sort th').on('click', function(){
+        let index = $('#thead-sort th').index(this);
         while(index + 1){
-            var th = $('th').val();
-            $('th').val((th === false)? true: false)
+            var th = $('#thead-sort th').val();
+            $('#thead-sort th').val((th === false)? true: false)
 
-            sortColumn(index, $('th').val());
+            sortColumn(index, $('#thead-sort th').val());
             
             break;
         }
     });
 
     function sortColumn( index, order){
-        let tr = $('#table-sort tr:nth-child(n)');
+        let tr = $('#tbody-sort tr:nth-child(n)');
         var result = [];
 
         for (let i = 0; i < tr.length; i++) {
@@ -28,11 +28,11 @@ $(document).ready( function(){
                 var arrayB = b.split('</td>')
                 return (arrayA[index] > arrayB[index]) ? 1: -1;
             });
-            $('thead th span').html('   &#x2B18;');
-            $('thead th span').eq(index).html('   &#x2BC6;');
+            $('#thead-sort th span').html('   &#x2B18;');
+            $('#thead-sort th span').eq(index).html('   &#x2BC6;');
             if(order === true){
                 result.reverse();
-                $('thead th span').eq(index).html('   &#x2BC5;');
+                $('#thead-sort th span').eq(index).html('   &#x2BC5;');
             }
         }
 

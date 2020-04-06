@@ -18,7 +18,7 @@ $(document).ready( function(){
     });
 
     function sortColumn( index, order){
-        let tr = $('tbody tr:nth-child(n)');
+        let tr = $('#table-sort tr:nth-child(n)');
         var result = [];
 
         for (let i = 0; i < tr.length; i++) {

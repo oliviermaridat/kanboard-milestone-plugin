@@ -1,32 +1,36 @@
 <?php if (! empty($milestone)): ?>
-<table class="task-links-table table-stripped">
-    <thead>
-    <tr>
-        <th class="column-45" colspan="2"><?= t('Title') ?></th>
-        <th class="column-15"><?= t('Assignee') ?></th>
-        <th><?= t('Time tracking') ?></th>
-        <?php if ($editable): ?>
-            <th class="column-5"></th>
-        <?php endif ?>
-    </tr>
+<table class="task-links-table table-stripped table-scrolling">
+    <thead id="thead-milestone-table">
+        <tr>
+            <th><?= t('Project') ?> <span class="order-by"><span></th>
+            <th><?= t('Column') ?> <span class="order-by"><span></th>
+            <th class="column-40"><?= t('Title') ?> <span class="order-by"><span></th>
+            <th class="column-15"><?= t('Assignee') ?> <span class="order-by"><span></th>
+            <th><?= t('Time tracking') ?></th>
+            <?php if ($editable): ?>
+                <th class="column-5"></th>
+            <?php endif ?>
+        </tr>
     </thead>
-    <tbody>
-    <?php $total_progress = 0; ?>
-    <?php $total_time_spent = 0; ?>
-    <?php $total_time_estimated = 0; ?>
-    <?php $total_time_spent_cumul = 0; ?>
-    <?php foreach ($milestone as $link): ?>
+    <tbody id="tbody-milestone-table">
+        <?php $total_progress = 0; ?>
+        <?php $total_time_spent = 0; ?>
+        <?php $total_time_estimated = 0; ?>
+        <?php $total_time_spent_cumul = 0; ?>
+        <?php foreach ($milestone as $link): ?>
         <?php $total_progress += $this->task->getProgress($link); ?>
         <?php $total_time_spent += $link['task_time_spent']; ?>
         <?php $total_time_estimated += $link['task_time_estimated']; ?>
         <?php $total_time_spent_cumul += min($link['task_time_spent'], $link['task_time_estimated']); ?>
         <tr>
+            <td><?php echo $link['project_name'] ?></td>
+            <td><?= $this->text->e($link['column_title']) ?></td>
             <td>
                 <div class="task-board color-<?= $link['color_id'] ?>"
                      data-task-url="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $link['task_id'], 'project_id' => $link['project_id'])) ?>">
                     <?php if ($editable): ?>
                         <div class="task-board-collapsed<?= ($link['is_active'] ? '' : ' task-link-closed') ?>">
-                            <?= $this->render('task/dropdown', array('task' => array('id' => $link['task_id'], 'project_id' => $link['project_id'], 'is_active' => $link['is_active'], 'link_id' => $link['id']))) ?>
+                            <?= $this->render('task/dropdown', array('task' => array('column_id' => $link['column_id'], 'id' => $link['task_id'], 'project_id' => $link['project_id'], 'is_active' => $link['is_active'], 'link_id' => $link['id']))) ?>
                             <?= $this->url->link(
                                 $this->text->e($link['title']),
                                 'TaskViewController',
@@ -50,7 +54,6 @@
                     <?php endif ?>
                 </div>
             </td>
-            <td><?= $this->text->e($link['column_title']) ?></td>
             <td>
                 <?php if (! empty($link['task_assignee_username'])): ?>
                     <?php if ($editable): ?>
@@ -107,45 +110,48 @@
             </td>
             <?php endif ?>
         </tr>
-    <?php endforeach ?>
+        <?php endforeach ?>
     </tbody>
     <tfoot>
-    <tr>
-        <th colspan="3" class="total"><?= t('Total progress') ?></th>
-        <td<?php if ($editable): ?> colspan="2"<?php endif ?>>
-            <div class="progress-bar">
-                <?php $percentage = (!$total_progress ? 0 : round($total_progress/count($milestone))); ?>
-                <div class="task-board progress color-<?= $task['color_id'] ?>" style="width:<?= min(99, $percentage) ?>%;">
-                    &#160;<?= $percentage ?>%
+        <tr>
+            <th colspan="4" class="total"><?= t('Total progress') ?></th>
+            <td<?php if ($editable): ?> colspan="2"<?php endif ?>>
+                <div class="progress-bar">
+                    <?php $percentage = (!$total_progress ? 0 : round($total_progress/count($milestone))); ?>
+                    <div class="task-board progress color-<?= $task['color_id'] ?>" style="width:<?= min(99, $percentage) ?>%;">
+                        &#160;<?= $percentage ?>%
+                    </div>
                 </div>
-            </div>
-        </td>
-    </tr>
-    <?php if (! empty($total_time_spent) || ! empty($total_time_estimated)): ?>
-    <tr>
-        <th colspan="3" class="total"><?= t('Total time tracking') ?></th>
-        <td<?php if ($editable): ?> colspan="2"<?php endif ?>>
-            <?php if (! empty($total_time_spent)): ?>
-                <strong><?= $this->text->e($total_time_spent).'h' ?></strong> <?= t('spent') ?>
-            <?php endif ?>
+            </td>
+        </tr>
+         <?php if (! empty($total_time_spent) || ! empty($total_time_estimated)): ?>
+        <tr>
+            <th colspan="4" class="total"><?= t('Total time tracking') ?></th>
+            <td<?php if ($editable): ?> colspan="2"<?php endif ?>>
 
-            <?php if (! empty($total_time_estimated)): ?>
-                <strong><?= $this->text->e($total_time_estimated).'h' ?></strong> <?= t('estimated') ?>
-            <?php endif ?>
+                <strong><?= count($milestone) ?></strong> <?= strtolower(t('Tasks')) ?>
 
-            <?php if (! empty($total_time_spent) && ! empty($total_time_estimated)): ?>
-                <strong><?= $this->text->e($total_time_estimated-$total_time_spent).'h' ?></strong> <?= t('remaining') ?>
-            <?php endif ?>
+                <?php if (! empty($total_time_spent)): ?>
+                    <strong><?= $this->text->e($total_time_spent).'h' ?></strong> <?= t('spent') ?>
+                <?php endif ?>
 
-            <div class="progress-bar">
-                <?php $percentage = (!$total_time_estimated ? 0 : round($total_time_spent_cumul/$total_time_estimated*100.0)); ?>
-                <div class="task-board progress color-<?= $task['color_id'] ?>" style="width:<?= min(99, $percentage) ?>%;">
-                    &#160;<?= $percentage ?>%
+                <?php if (! empty($total_time_estimated)): ?>
+                    <strong><?= $this->text->e($total_time_estimated).'h' ?></strong> <?= t('estimated') ?>
+                <?php endif ?>
+
+                <?php if (! empty($total_time_spent) && ! empty($total_time_estimated)): ?>
+                    <strong><?= $this->text->e($total_time_estimated-$total_time_spent).'h' ?></strong> <?= t('remaining') ?>
+                <?php endif ?>
+
+                <div class="progress-bar">
+                    <?php $percentage = (!$total_time_estimated ? 0 : round($total_time_spent_cumul/$total_time_estimated*100.0)); ?>
+                    <div class="task-board progress color-<?= $task['color_id'] ?>" style="width:<?= min(99, $percentage) ?>%;">
+                        &#160;<?= $percentage ?>%
+                    </div>
                 </div>
-            </div>
-        </td>
-    </tr>
-    </tfoot>
+            </td>
+        </tr>
+        </tfoot>
     <?php endif ?>
 </table>
 <?php endif ?>

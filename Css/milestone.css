@@ -19,3 +19,19 @@
     padding-bottom: 0;
     margin-bottom: 0;
 }
+
+#thead-milestone-table .order-by {
+    cursor: pointer;
+}
+#thead-milestone-table .order-by:before {
+    font-family: FontAwesome;
+    content: "\f0dc";
+}
+#thead-milestone-table .order-by.down:before {
+    font-family: FontAwesome;
+    content: "\f0dd";
+}
+#thead-milestone-table .order-by.up:before {
+    font-family: FontAwesome;
+    content: "\f0de";
+}

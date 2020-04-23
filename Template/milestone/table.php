@@ -30,7 +30,7 @@
                      data-task-url="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $link['task_id'], 'project_id' => $link['project_id'])) ?>">
                     <?php if ($editable): ?>
                         <div class="task-board-collapsed<?= ($link['is_active'] ? '' : ' task-link-closed') ?>">
-                            <?= $this->render('task/dropdown', array('task' => array('id' => $link['task_id'], 'project_id' => $link['project_id'], 'is_active' => $link['is_active'], 'link_id' => $link['id']))) ?>
+                            <?= $this->render('task/dropdown', array('task' => array('column_id' => $link['column_id'], 'id' => $link['task_id'], 'project_id' => $link['project_id'], 'is_active' => $link['is_active'], 'link_id' => $link['id']))) ?>
                             <?= $this->url->link(
                                 $this->text->e($link['title']),
                                 'TaskViewController',

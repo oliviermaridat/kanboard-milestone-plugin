@@ -2,7 +2,7 @@
     <div class="accordion-title">
 	<h3>
 		<a href="#" class="fa accordion-toggle"></a> <?= t('Milestone') ?>
-		<?= $this->modal->largeIcon('plus', 'Add a new task into this milestone', 'TaskInternalLinkController', 'create', array('task_id' => $task['id'], 'project_id' => $task['project_id'], 'link_id' => 9)) ?>
+		<?= $this->modal->largeIcon('plus', t('Add a new task into this milestone'), 'TaskInternalLinkController', 'create', array('task_id' => $task['id'], 'project_id' => $task['project_id'], 'link_id' => 9)) ?>
 	</h3>
     </div>
     <div class="accordion-content">

@@ -10,6 +10,7 @@ class Plugin extends Base
     public function initialize()
     {
         $this->hook->on('template:layout:css', array('template' => 'plugins/Milestone/Css/milestone.css'));
+        $this->hook->on('template:layout:js', array('template' => 'plugins/Milestone/Js/tableSort.js'));
         $this->template->hook->attach('template:task:dropdown', 'milestone:milestone/dropdown');
         $this->template->setTemplateOverride('task_internal_link/show', 'milestone:task_internal_link/show');
         $this->template->setTemplateOverride('milestone/show', 'milestone:milestone/show');
@@ -50,7 +51,7 @@ class Plugin extends Base
 
     public function getPluginVersion()
     {
-        return '1.1.2';
+        return '1.1.5';
     }
 
     public function getPluginHomepage()
